@@ -549,15 +549,32 @@ orderViewController.successBlock = params[@"successBlock"];
 
 详细的实现细节可去[示例工程](https://github.com/iOSShop)中查看。
 
-## 3.8 其它说明
+## 3.8 主工程模块集成
+
+一般的应用都是UITabBarController+UINavigationController，所以我们的主工程基本都是搭建UITabBarController+UINavigationController的结构，做一些全局设置，以及处理一些初始化的逻辑等等。然后在Podfile里面引入所有的业务模块的Category工程以及对应的业务模块工程即可。
+
+## 3.9 其它说明
 
 1. 从模块间调用和通信来看，解决依赖的办法也带来了一些硬编码的工作，包括调用时需要对类名和方法名进行硬编码，以及传递参数时对参数名的硬编码。这些硬编码无法避免，但是都在可控范围内，局限于Cateogry和对应的Target-Action。所以同一业务模块的Cateogry和Target-Action基本都是一个人编写，也能保证不会出错。
 
-2. 编写podspec文件时需要注意依赖循环的问题。比如账户模块需要调用
+2. 编写podspec文件时需要注意依赖循环的问题，所以需要注意：
 
-3. tag小技巧，很多时候Git打完tag之后，在执行upload.sh上传pods的时候会出错。解决完错误后，会发现可能需要重新命名tag，导致版本号跳跃。所以可以删除失败的时候打的tag。
+   - Category工程的podspec不要dependency对应的业务工程，也不要dependency其它业务模块的Category及其业务工程。理论上来说dependency只需要CCMediator即可。
+   - 业务工程的podspec只需dependency其它业务模块的Category即可，不要dependency其它业务工程。
+   - 在开发测试中可以在Podfile中加上其它业务模块的Category和业务工程。
+
+   这么做的原因是，举个例子：
+
+   比如账户模块会调用商品模块的服务，商品模块也会调用账户模块的服务。如果商品模块的Category工程的podspec依赖了商品模块的业务工程，同时账户模块的Category工程的podspec依赖了账户模块的业务工程。那么在商品模块的业务工程中引入账户模块的Category工程时，就会引入账户模块的业务工程。接着账户模块就会引入商品模块的Category工程，商品模块的Category工程又引入了商品模块的业务工程中，然后就自己引入自己，所以肯定无法引入成功。如下图所示：
+
+   ![](24.png)
+
+3. tag小技巧，很多时候Git打完tag之后，在执行upload.sh上传pods的时候会出错。解决完错误后，会发现可能需要重新命名tag，导致版本号跳跃。所以可以删除失败的时候打的tag，然后重新打这个tag。
 
    ```bash
    git tag -d 1.0.0
    git push origin :/refs/tags/1.0.0
    ```
+
+# 4 总结
+
