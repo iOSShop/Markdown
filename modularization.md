@@ -1,7 +1,5 @@
 [TOC]
 
-
-
 # 前言
 
 iOS开发的组件化方案的文章介绍已经很多了，但是很少有能介绍如何在项目工程中进行实施的，本文则是作者在实际项目中实施组件化方案后总结的一些经验。本文不会讨论太多理论上的知识，主要集中在实施方面。
@@ -583,6 +581,8 @@ orderViewController.successBlock = params[@"successBlock"];
 以上都是作者在实际开发中的总结，交流请联系：
 
 >  cctomato@outlook.com
+
+本文所有的代码都托管在Github上，[点击查看](https://github.com/iOSShop)。
 
 本文的架构设计和实践思路都来源于[Casa Taloyum](https://casatwy.com/category/blog.html)大神的博客：
 
