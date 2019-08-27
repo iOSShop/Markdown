@@ -98,7 +98,7 @@ git push
 
 ![](13.png)
 
-通过上图可以看到模块与模块之间的调用已经没有直接引入了，都是通过category引入。在上图的基础上还是可以看到依赖并没有减少，Category会引用Target-Action，并间接引用源代码文件。
+通过上图可以看到模块与模块之间的调用已经没有直接引入了，都是通过Category引入。在上图的基础上还是可以看到依赖并没有减少，Category会引用Target-Action，并间接引用源代码文件。
 
 第二个问题的其实就是Category与Target-Action之间的依赖问题，解决办法也很简单粗暴。因为业务模块中对外提供服务的Category中的方法实现其实就是直接调用的Target类里面的Action方法，所以通过runtime的技术就可以直接切段两者之间的依赖。
 
@@ -561,9 +561,7 @@ orderViewController.successBlock = params[@"successBlock"];
    - 业务工程的podspec只需dependency其它业务模块的Category即可，不要dependency其它业务工程。
    - 在开发测试中可以在Podfile中加上其它业务模块的Category和业务工程。
 
-   这么做的原因是，举个例子：
-
-   比如账户模块会调用商品模块的服务，商品模块也会调用账户模块的服务。如果商品模块的Category工程的podspec依赖了商品模块的业务工程，同时账户模块的Category工程的podspec依赖了账户模块的业务工程。那么在商品模块的业务工程中引入账户模块的Category工程时，就会引入账户模块的业务工程。接着账户模块就会引入商品模块的Category工程，商品模块的Category工程又引入了商品模块的业务工程中，然后就自己引入自己，所以肯定无法引入成功。如下图所示：
+   这么做的原因是，举个例子：比如账户模块会调用商品模块的服务，商品模块也会调用账户模块的服务。如果商品模块的Category工程的podspec依赖了商品模块的业务工程，同时账户模块的Category工程的podspec依赖了账户模块的业务工程。那么在商品模块的业务工程中引入账户模块的Category工程时，就会引入账户模块的业务工程。接着账户模块就会引入商品模块的Category工程，商品模块的Category工程又引入了商品模块的业务工程中，然后就自己引入自己，所以肯定无法引入成功。如下图所示：
 
    ![](24.png)
 
