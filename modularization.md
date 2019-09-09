@@ -547,11 +547,11 @@ orderViewController.successBlock = params[@"successBlock"];
 
 详细的实现细节可去[示例工程](https://github.com/iOSShop)中查看。
 
-## 3.8 主工程模块集成
+## 3.8主工程模块集成
 
 一般的应用都是UITabBarController+UINavigationController，所以我们的主工程基本都是搭建UITabBarController+UINavigationController的结构，做一些全局设置，以及处理一些初始化的逻辑等等。然后在Podfile里面引入所有的业务模块的Category工程以及对应的业务模块工程即可。
 
-## 3.9 其它说明
+## 3.9其它说明
 
 1. 从模块间调用和通信来看，解决依赖的办法也带来了一些硬编码的工作，包括调用时需要对类名和方法名进行硬编码，以及传递参数时对参数名的硬编码。这些硬编码无法避免，但是都在可控范围内，局限于Cateogry和对应的Target-Action。所以同一业务模块的Cateogry和Target-Action基本都是一个人编写，也能保证不会出错。
 
